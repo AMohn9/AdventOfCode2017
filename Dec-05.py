@@ -29,7 +29,6 @@ def Solve2(lst):
 		else:
 			lst[place] += 1
 			place += lst[place] - 1
-	print lst
 	return counter
 
 
@@ -38,4 +37,3 @@ if __name__ == "__main__":
 		lst = [int(x) for x in f.read().splitlines()]
 		print Solve(copy(lst))
 		print Solve2(copy(lst))
-		
