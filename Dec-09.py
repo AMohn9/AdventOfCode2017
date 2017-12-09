@@ -38,12 +38,9 @@ def Solve(stream):
 			depth -= 1
 	return score, len(orig) - len(stream) - replaced * 2
 
-depth = lambda L: isinstance(L, list) and sum(map(depth, L))+1
-print depth([[[],[],[[]]]])
-
-# if __name__ == "__main__":
-# 	with open('Dec-09.dat') as f:
-# 		stream = f.read()
-# 		print Solve(stream)
+if __name__ == "__main__":
+	with open('Dec-09.dat') as f:
+		stream = f.read()
+		print Solve(stream)
 
 
