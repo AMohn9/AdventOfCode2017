@@ -13,7 +13,7 @@ Each square on the grid is allocated in a spiral pattern starting at a location 
 Using the Manhattan Distance, how many steps are required to carry the data from the square identified in your puzzle input all the way to the center?
 '''
 
-from math import ceil, pow
+from math import ceil, pow, sqrt
 def nextSquare(square):
 	root = int(ceil(pow(square, .5)))
 	if not root % 2:
@@ -52,7 +52,71 @@ Once a square is written, its value does not change. Therefore, the first few sq
 362  747  806--->   ...
 What is the first value written that is larger than your puzzle input?
 '''
+def Solve2(val):
+	mat = [[0, 0, 0], [0, 1, 0], [0, 0, 0]]
+	row, col = 1, 2
+	next_square = 0
+	while next_square < val:
+		next_square = 0
+		# Above
+		if row > 0:
+			next_square += mat[row-1][col]
+			# Above left
+			if col > 0:
+				next_square += mat[row-1][col-1]
+			# Above right
+			if col < len(mat) - 1:
+				next_square += mat[row-1][col+1]
+		# Sides
+		if col > 0:
+			next_square += mat[row][col-1]
+		if col < len(mat) - 1:
+			next_square += mat[row][col+1]
+
+		# Below
+		if row < len(mat) - 1:
+			next_square += mat[row+1][col]
+			# Below left
+			if col > 0:
+				next_square += mat[row+1][col-1]
+			# Below right
+			if col < len(mat) - 1:
+				next_square += mat[row+1][col+1]
+		mat[row][col] = next_square
+
+		# Move to next square
+		if row == 0:
+			if col == 0:
+				row += 1
+			else:
+				col -= 1
+		elif col == 0:
+			if row == len(mat)-1:
+				col += 1
+			else:
+				row += 1
+		elif row == len(mat)-1:
+			if col == len(mat)-1:
+				# Grow mat
+				for r in mat:
+					r.insert(0, 0)
+					r.append(0)
+				mat.insert(0, [0]*(len(mat)+2))
+				mat.append([0]*(len(mat)+2))
+				row += 1
+				col += 2
+			else:
+				col += 1
+		elif col == len(mat)-1:
+			row -= 1
+		else:
+			print "BAD BAD BAD", row, col
+			exit()
+	return next_square
+
+
 
 if __name__ == "__main__":
 	print Solve(289326)
+	print Solve2(289326)
 
